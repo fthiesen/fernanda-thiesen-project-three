@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import Header from './Header.js';
 import Footer from './Footer.js';
 import Movie from './Movie.js';
@@ -44,15 +44,20 @@ const handleChange = (event) => {
     ...formFields,
     [event.target.name]: event.target.value
   });
-  console.log(formFields);
+  // console.log(formFields);
 
 }
 
 const handleSubmit = (event) => {
   event.preventDefault();
-  const moviesRef = firebase.database().ref('movies');
-  moviesRef.push(formFields);
-  setFormFields({});
+  const { title, comment, where } = formFields;
+  if (title && comment && where ) {
+    const moviesRef = firebase.database().ref('movies');
+    moviesRef.push(formFields);
+    setFormFields({ title: "", comment: "", where: ""});
+  } else {
+    alert('Nope');
+  }
 }
 
   return (
@@ -60,16 +65,16 @@ const handleSubmit = (event) => {
       <Header />
       <main>
         <section className="form">
+          <p>Use the form below to add a must-watch movie to the board.</p>
           <form action="" onSubmit={handleSubmit}>
-            <label htmlFor="title">Movie Title</label>
-            <input type="text" id="title" name="title" onChange={handleChange} value={formFields.title}/>
-            <label htmlFor="comment">Why is this movie a must-watch?</label>
-            <textarea id="comment" name="comment" cols="30" rows="10" onChange={handleChange} value={formFields.comment}></textarea>
-            <label htmlFor="where">Where can it be watched?</label>
-            <input type="text" id="where" name="where" onChange={handleChange} value={formFields.where}/>
+            <label htmlFor="title" className="sr-only">Movie Title</label>
+            <input type="text" id="title" name="title" placeholder="Type a movie title" onChange={handleChange} value={formFields.title}/>
+            <label htmlFor="comment" className="sr-only">Why is this movie a must-watch?</label>
+            <textarea id="comment" name="comment" cols="30" rows="10" maxLength="500" placeholder="Why is this movie a must-watch?" onChange={handleChange} value={formFields.comment}></textarea>
+            <label htmlFor="where" className="sr-only">Where can it be watched?</label>
+            <input type="text" id="where" name="where" placeholder="Where can it be watched?" onChange={handleChange} value={formFields.where}/>
             <button>Recommend</button>
           </form>
-
         </section>
         <section className="movies">
         {
