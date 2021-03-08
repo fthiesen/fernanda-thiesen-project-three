@@ -1,0 +1,11 @@
+@mixin tabletMQ {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin mobileMQ {
+  @media (max-width: 500px) {
+    @content;
+  }
+}

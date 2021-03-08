@@ -1,5 +1,6 @@
 @import 'setup';
 @import 'variables';
+@import 'mixins';
 
 html {
   font-size: 62.5%;
@@ -19,8 +20,16 @@ h3,
 h4,
 button {
   font-weight: 700;
-  text-transform: uppercase;
-  margin-bottom: 0.5em;
+  margin-bottom: 1.5rem;
+}
+
+h2 {
+  font-size: 2.8rem;
+}
+
+h4 {
+  font-size: 2rem;
+  letter-spacing: 0.5px;
 }
 
 button {
@@ -29,6 +38,14 @@ button {
   background-color: $accent;
   height: 2.6em;
   border: none;
+  transition: 0.2s;
+  border-radius: 5px;
+}
+
+button:hover,
+button:focus {
+  background-color: $light;
+  color: $accent;
 }
 
 a {
@@ -37,7 +54,8 @@ a {
 }
 
 p {
-  margin-bottom: 0.5em;
+  margin-bottom: 1.5rem;
+  line-height: 1.3em;
 }
 
 .wrapper {
@@ -48,7 +66,10 @@ p {
 
 .container {
   display: grid;
-  grid-template-rows: 150px 1fr 50px;
+  grid-template-rows: 170px 1fr 50px;
+  @include mobileMQ {
+    grid-template-rows: 230px 1fr 50px;
+  }
   grid-template-areas:
     "header"
     "main"
@@ -64,25 +85,21 @@ footer {
   justify-content: center;
 }
 
-header {
-  h1 {
+h1 {
     font-family: $heading;
+    text-transform: uppercase;
     letter-spacing: 3px;
     font-size: 6rem;
     font-weight: 800;
-    margin-bottom: 10px;
+    margin: 10px 0;
+    text-shadow: -3px 3px 0 $accent;
+    text-align: center;
   }
-  h4 {
-    font-size: 2rem;
-    letter-spacing: 0.5px;
-  }
-
-}
 
 main {
   display: flex;
-  flex-wrap: nowrap;
-  padding: 10px 0 20px;
+  padding-bottom: 40px;
+  flex-wrap: wrap;
 }
 
 section {
@@ -91,11 +108,21 @@ section {
 
 .form {
   width: 30%;
-  P {
+  @include tabletMQ {
+    width: 40%;
+  }
+  @include mobileMQ {
+    margin-top: 40px;
+    width: 100%;
+  }
+  p {
     margin-bottom: 1em;
   }
   form {
     max-width: 300px;
+    @include mobileMQ {
+      max-width: 100%;
+    }
     display: flex;
     flex-direction: column;
     input,
@@ -105,14 +132,21 @@ section {
       background-color: $dark;
       border: none;
       margin-bottom: 10px;
-      padding: 10px;
+      padding: 15px;
+      border-radius: 5px;
       &::placeholder {
        opacity: 1; 
+      }
+      &:focus {
+        background-color: $accent;
       }
     }
     textarea {
       width: 100%;
       max-width: 300px;
+      @include mobileMQ {
+        max-width: 100%;
+      }
       resize: none;
     }
   }
@@ -120,15 +154,81 @@ section {
 
 .movies {
   width: 70%;
+  @include tabletMQ {
+    width: 60%;
+    grid-template-columns: 1fr;
+  }
+  @include mobileMQ {
+    width: 100%;
+    order: -1;
+  }
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 5px;
-  align-items: start;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
   color: $darker;
+  .loading {
+    grid-column: span 2;
+    color: $light;
+    font-size: 4rem;
+    text-align: center;
+    margin-top: 25vh;
+    svg {
+    animation: roll 1s infinite linear;
+    @keyframes roll {
+      0% {
+        transform: rotate(0);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    }
+  }
   .movie {
-    padding: 5%;
+    position: relative;
+    border-radius: 5px;
+    padding: 3rem;
     background-color: $medium;
+    box-shadow: -5px 5px 0px $dark;
+    height: 300px;
+    overflow: auto;
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 2rem;
+      cursor: pointer;
+      height: 40px;
+      width: 40px;
+      line-height: 1em;
+      padding-right: 8px;
+      padding-top: 2px;
+    }
+    h2 {
+      margin-right: 40px;
+    }
+    p:last-of-type {
+      margin-bottom: 3rem;
+    }
+  }
+}
 
+.react-confirm-alert {
+  .react-confirm-alert-body {
+    color: black;
+  }
+  h1 {
+    color: $darker;
+    font-size: 3.5rem;
+    text-shadow: -2px 2px $accent;
+  }
+  .react-confirm-alert-button-group button {
+    background-color: $accent;
+    margin-bottom: 0;
+    &:hover,
+    &:focus {
+      background-color: $darker;
+    }
   }
 }
 
