@@ -24,13 +24,16 @@ const Movie = (props) => {
       ]
     })
 
-
   }
   return (
     <div className="movie">
       <button onClick={ () => {handleClick(props.id)}} className="close" aria-label="Remove recommendation" title="Remove recommendation"><GrClose /></button>
       <h2>{props.title}</h2>
       <p>{props.comment}</p>
+      <h4>Plot</h4>
+      <p>{props.plot}</p>
+      <p>Year: {props.year}</p>
+      <p>IMDB Rating: {props.rating}</p>
       <h4>Where to watch it:</h4>
       <p>{props.where}</p>
     </div>

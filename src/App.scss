@@ -20,7 +20,7 @@ h3,
 h4,
 button {
   font-weight: 700;
-  margin-bottom: 1.5rem;
+  margin-bottom: 10px;
 }
 
 h2 {
@@ -54,7 +54,7 @@ a {
 }
 
 p {
-  margin-bottom: 1.5rem;
+  margin-bottom: 10px;
   line-height: 1.3em;
 }
 
@@ -85,16 +85,21 @@ footer {
   justify-content: center;
 }
 
-h1 {
-    font-family: $heading;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    font-size: 6rem;
-    font-weight: 800;
-    margin: 10px 0;
-    text-shadow: -3px 3px 0 $accent;
-    text-align: center;
-  }
+header {
+  h1 {
+      font-family: $heading;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 6rem;
+      font-weight: 800;
+      margin: 10px 0;
+      text-shadow: -3px 3px 0 $accent;
+      text-align: center;
+    }
+    h4 {
+      text-align: center;
+    }
+}
 
 main {
   display: flex;
@@ -156,59 +161,75 @@ section {
   width: 70%;
   @include tabletMQ {
     width: 60%;
-    grid-template-columns: 1fr;
   }
   @include mobileMQ {
     width: 100%;
     order: -1;
   }
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  color: $darker;
-  .loading {
+  h2 {
     grid-column: span 2;
+    grid-row: 1fr;
     color: $light;
-    font-size: 4rem;
     text-align: center;
-    margin-top: 25vh;
-    svg {
-    animation: roll 1s infinite linear;
-    @keyframes roll {
-      0% {
-        transform: rotate(0);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-    }
   }
-  .movie {
-    position: relative;
-    border-radius: 5px;
-    padding: 3rem;
-    background-color: $medium;
-    box-shadow: -5px 5px 0px $dark;
-    height: 300px;
-    overflow: auto;
-    .close {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      font-size: 2rem;
-      cursor: pointer;
-      height: 40px;
-      width: 40px;
-      line-height: 1em;
-      padding-right: 8px;
-      padding-top: 2px;
+  .movies-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: minmax(200px, 300px);
+    gap: 30px;
+    color: $darker;
+    @include tabletMQ {
+      grid-template-columns: 1fr;
     }
-    h2 {
-      margin-right: 40px;
+    .loading {
+      grid-column: span 2;
+      color: $light;
+      font-size: 4rem;
+      text-align: center;
+      margin-top: 10vh;
+      svg {
+        animation: roll 1s infinite linear;
+        @keyframes roll {
+          0% {
+            transform: rotate(0);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+      }
     }
-    p:last-of-type {
-      margin-bottom: 3rem;
+    .movie {
+      scrollbar-color: $accent $dark;
+      position: relative;
+      border-radius: 5px;
+      padding: 3rem;
+      background-color: $medium;
+      box-shadow: -5px 5px 0px $dark;
+      overflow: auto;
+      .close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 2rem;
+        cursor: pointer;
+        height: 40px;
+        width: 40px;
+        line-height: 1em;
+        padding-right: 8px;
+        padding-top: 2px;
+      }
+      h2 {
+        margin-right: 40px;
+        color: $darker;
+        text-align: left;
+      }
+      h4 {
+        margin-top: 15px;
+      }
+      p:last-of-type {
+        margin-bottom: 3rem;
+      }
     }
   }
 }
