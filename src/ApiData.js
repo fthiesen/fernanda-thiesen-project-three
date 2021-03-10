@@ -7,7 +7,7 @@ const ApiData = (formFields, setFormFields, setGenreFilter) => {
 
   axios({
     method: 'GET',
-    url: 'http://www.omdbapi.com/',
+    url: 'https://www.omdbapi.com/',
     dataResponse: 'JSON',
     params: {
       i: 'tt3896198',
