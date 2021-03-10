@@ -32,8 +32,9 @@ const Movie = (props) => {
       <p>{props.comment}</p>
       <h4>Plot</h4>
       <p>{props.plot}</p>
-      <p>Year: {props.year}</p>
-      <p>IMDB Rating: {props.rating}</p>
+      <p><strong>Genre:</strong> {props.genre}</p>
+      <p><strong>Year:</strong> {props.year}</p>
+      <p><strong>IMDB Rating:</strong> {props.rating}</p>
       <h4>Where to watch it:</h4>
       <p>{props.where}</p>
     </div>
