@@ -1,7 +1,7 @@
 import firebase from './firebase.js';
-import { GrClose } from 'react-icons/gr';
-import { confirmAlert } from 'react-confirm-alert'; // Import
-import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
+import { VscChromeClose } from 'react-icons/vsc';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 const Movie = (props) => {
   
@@ -16,6 +16,7 @@ const Movie = (props) => {
           onClick: () => {
             const moviesRef = firebase.database().ref('movies');
             moviesRef.child(uniqueId).remove();
+            props.setGenreFilter('All');
           }
         },
         {
@@ -27,7 +28,7 @@ const Movie = (props) => {
   }
   return (
     <div className="movie">
-      <button onClick={ () => {handleClick(props.id)}} className="close" aria-label="Remove recommendation" title="Remove recommendation"><GrClose /></button>
+      <button onClick={ () => {handleClick(props.id)}} className="close" aria-label="Remove recommendation" title="Remove recommendation"><VscChromeClose /></button>
       <h2>{props.title}</h2>
       <p>{props.comment}</p>
       <h4>Plot</h4>
@@ -35,7 +36,7 @@ const Movie = (props) => {
       <p><strong>Genre:</strong> {props.genre}</p>
       <p><strong>Year:</strong> {props.year}</p>
       <p><strong>IMDB Rating:</strong> {props.rating}</p>
-      <h4>Where to watch it:</h4>
+      <h4>Where to watch:</h4>
       <p>{props.where}</p>
     </div>
   )

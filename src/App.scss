@@ -148,6 +148,7 @@ section {
       padding: 15px;
       border-radius: 5px;
       &::placeholder {
+       color: $light;
        opacity: 1; 
       }
       &:focus {
@@ -177,20 +178,43 @@ section {
   h2 {
     color: $light;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+  }
+  .genre-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 20px;
+    @include mobileMQ {
+      flex-direction: column;
+    }
+    p {
+      margin: 0 10px 0 0;
+      @include mobileMQ {
+        margin-bottom: 10px;
+      }
+    }
+    select {
+      background-color: $dark;
+      border: none;
+      outline: none;
+      color: $light;
+      padding: 5px;
+      &:focus {
+        background-color: $accent;
+      }
+    }
   }
   .movies-list {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-auto-rows: minmax(200px, 300px);
     gap: 30px;
-    color: $darker;
     @include tabletMQ {
       grid-template-columns: 1fr;
     }
     .loading {
       grid-column: span 2;
-      color: $light;
       font-size: 4rem;
       text-align: center;
       margin-top: 10vh;
@@ -206,7 +230,19 @@ section {
         }
       }
     }
+    .no-movies-found {
+      grid-column: span 2;
+      text-align: center;
+      padding-top: 10vh;
+      .warning {
+        display: block;
+        font-size: 6rem;
+        color: $accent;
+        margin-bottom: 10px;
+      }
+    }
     .movie {
+      color: $darker;
       scrollbar-color: $accent $dark;
       position: relative;
       border-radius: 5px;
@@ -220,11 +256,16 @@ section {
         right: 20px;
         font-size: 2rem;
         cursor: pointer;
-        height: 40px;
-        width: 40px;
+        height: 34px;
+        width: 34px;
         line-height: 1em;
-        padding-right: 8px;
+        padding-right: 27px;
         padding-top: 2px;
+        &:hover,
+        &:focus {
+          background-color: $darker;
+          color: $light;
+        }
       }
       h2 {
         margin-right: 40px;
@@ -242,7 +283,7 @@ section {
 }
 
 .react-confirm-alert {
-  overflow: scroll;
+  overflow: auto;
   max-height: 100vh;
   .react-confirm-alert-body {
     color: black;

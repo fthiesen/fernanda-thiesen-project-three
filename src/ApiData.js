@@ -3,7 +3,7 @@ import firebase from './firebase.js';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
-const ApiData = (formFields, resetFormFields) => {
+const ApiData = (formFields, setFormFields, setGenreFilter) => {
 
   axios({
     method: 'GET',
@@ -18,7 +18,6 @@ const ApiData = (formFields, resetFormFields) => {
   }).then(response => {
 
     const data = response.data;
-    console.log(data);
 
     if(data.Response !== "False") {
 
@@ -33,7 +32,11 @@ const ApiData = (formFields, resetFormFields) => {
             <p><strong>Plot:</strong> {data.Plot}</p>
             <p><strong>Genre:</strong> {data.Genre}</p>
             <p><strong>Year:</strong> {data.Year}</p>
-            <div><img src={data.Poster} alt="Poster of the movie found in the OMDb API"/></div>
+            {
+              data.Poster !== 'N/A'
+              ? <div><img src={data.Poster} alt="Poster of the movie found in the OMDb API"/></div>
+              : null
+            }
             <div className="react-confirm-alert-button-group">
               <button onClick={onClose}>No, I'll try a different title</button>
               <button
@@ -49,7 +52,8 @@ const ApiData = (formFields, resetFormFields) => {
                   });
                   const moviesSection = document.getElementById("movies");
                   moviesSection.scrollIntoView();
-                  resetFormFields();
+                  setGenreFilter('All');
+                  setFormFields({ title: "", comment: "", where: ""});
                   onClose();
                 }}
               >Yes

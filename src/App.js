@@ -1,11 +1,12 @@
 import './App.scss';
 import { AiOutlineLoading } from 'react-icons/ai';
+import { TiWarningOutline } from 'react-icons/ti';
 
 import Header from './Header.js';
 import Footer from './Footer.js';
 import Movie from './Movie.js';
 import Form from './Form.js';
-import ApiData from './ApiData.js'
+import ApiData from './ApiData.js';
 import FilterByGenre from './FilterByGenre.js';
 
 import firebase from './firebase.js';
@@ -18,8 +19,10 @@ function App() {
   const [ isLoading, setIsLoading ] = useState(true);
   const [ movies, setMovies ] = useState([]);
   const [ filteredMovies, setFilteredMovies ] = useState([]);
+  const [ genreFilter, setGenreFilter ] = useState ('All');
   const [ formFields, setFormFields ] = useState({ title: "", comment: "", where: ""});
  
+  // load movies
   useEffect(() => {
 
   const dbRef = firebase.database().ref('movies');
@@ -40,8 +43,9 @@ function App() {
         genre: movieData[movieKey].genre
       });
     }
-    setMovies(movies.reverse());
-    setFilteredMovies(movies.reverse());
+    const revMovies = movies.reverse();
+    setMovies(revMovies);
+    setFilteredMovies(revMovies);
     setIsLoading(false);
      
   })
@@ -49,6 +53,7 @@ function App() {
 }, []);
 // end of useEffect
 
+// recommend a movie form
 const handleChange = (event) => {
   setFormFields({
     ...formFields,
@@ -56,15 +61,11 @@ const handleChange = (event) => {
   });
 }
 
-const resetFormFields = () => {
-  setFormFields({ title: "", comment: "", where: ""});
-}
-
 const handleSubmit = (event) => {
   event.preventDefault();
   const { title, comment, where } = formFields;
   if (title && comment && where ) {
-    ApiData(formFields, () => resetFormFields());
+    ApiData(formFields, setFormFields, setGenreFilter);
   } else {
     confirmAlert({
       title: 'Ooops !!',
@@ -78,26 +79,24 @@ const handleSubmit = (event) => {
   }
 }
 
+// filter movies
 const filterByGenre = (chosenGenre) => {
-  console.log(chosenGenre);
   if( chosenGenre === 'All' ) {
     setFilteredMovies(movies);
   } else {
     const copyOfMovies = [...movies];
     const filteredMoviesArray = copyOfMovies.filter((movie) => {
       const genres = movie.genre.split(',');
-      // console.log(genres);
       const matchedGenre = genres.map((genre) => {
-        return genre === chosenGenre;
+        return genre.trim() === chosenGenre;
       })
-      // console.log(matchedGenre);
       return matchedGenre.includes(true);
     })
-    // console.log(filteredMoviesArray);
     setFilteredMovies(filteredMoviesArray);
   }
 }
 
+// build page
   return (
     <div className="App wrapper container">
       <Header />
@@ -108,12 +107,13 @@ const filterByGenre = (chosenGenre) => {
           formFields={formFields}
         />
         <section className="movies" id="movies">
-          <h2>Recommendations</h2>
-          <FilterByGenre filterByGenre={filterByGenre} />
+          <h2>Recommendations Board</h2>
+          <FilterByGenre filterByGenre={filterByGenre} genreFilter={genreFilter} setGenreFilter={setGenreFilter} />
           <div className="movies-list">
             {
               isLoading
               ? <span className="loading"><AiOutlineLoading /></span>
+              : filteredMovies.length === 0 ? <p className="no-movies-found"><span className="warning"><TiWarningOutline /></span>Sorry! We couldn't find any recommended movies with this genre.</p>
               : filteredMovies.map((movie) => {
               return (
                 <Movie 
@@ -126,6 +126,7 @@ const filterByGenre = (chosenGenre) => {
                 year={movie.year}
                 rating={movie.rating}
                 genre={movie.genre}
+                setGenreFilter={setGenreFilter}
                 />
               )
             })
